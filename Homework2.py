@@ -2,6 +2,11 @@ import os, socket, sys
 
 hostList = []
 
+class RemoteFile(file):
+    def __init__(self):
+        self.server = ""
+
+
 def sysStart(hostList, portNum):
     for host in hostList:
         os.system("ssh " + host + " 'nohup python pythontest.py " + str(portNum) + "  >&- &'")
