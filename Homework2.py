@@ -13,19 +13,17 @@ def sysStart(hostList, portNum):
 # get and send host list are not needed, host nodes don't need to be aware of eachother
 def sendHostList(hostList , portNum):
     global ls
-    for host in hostList:
-        ls.connect((host, portNum))
+
+    ls.connect((host, portNum))
 
 
-def getHostList():
+
+def recieveConnection():
     global ls, hostList
     ls.listen(1)
     (clientsocket, address) = ls.accept()
-    flo = clientsocket.makefile('r', 0)
-    for i in flo:
-        hostList.append(i)
-    flo.close()
-    clientsocket.close()
+
+    return (clientsocket, address)
 
 
 def initSocket(port):
@@ -36,7 +34,7 @@ def initSocket(port):
 
 def main():
     initSocket(int(argv[1]))
-
+    (clientsocket, address)  = recieveConnection()
 
 if __name__ == "__main__":
     main()
