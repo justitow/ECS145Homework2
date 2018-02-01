@@ -9,13 +9,12 @@ def sysStart(hostList, portNum):
 #def sysStop(hostList):
 #    for host in hostList:
 
+
+# get and send host list are not needed, host nodes don't need to be aware of eachother
 def sendHostList(hostList , portNum):
     global ls
     for host in hostList:
         ls.connect((host, portNum))
-
-
-
 
 
 def getHostList():
