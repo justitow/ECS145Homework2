@@ -23,20 +23,22 @@ def parse_command(x):
         return file_write(x)
     elif (x.cmd == 'o'):
         return file_open(x)
-    elif ()
+    elif (x.cmd == 'c'):
+        return file_close(x)
     
 def file_open(x):
     open_files[x.filename] = open(x.filename)
     return x
     
 def file_write(x):
+    open_files[x.filename].write(x.data)
     return x
 
 def file_read(x):
     if x.data == -1:
         x.data = open_files[x.file_name].read()
     else:
-        x.data = open_file[x.file_name].read(x.data)
+        x.data = open_file[x.file_name].read(int(x.data))
     return x
     
 def file_close(x):
@@ -53,18 +55,17 @@ def close_all(conn):
 def main():
     # Create a socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
     # Associate socket with a port
     host = ''
     port = 1338
     s.bind((host, port))
-    
+    s.listen(1) ## pretty sure don't need to 
+
     
     
     
     while(1):
         # accept "call" from client
-        s.listen(1)
         
         conn, addr = s.accept()
         print 'Client is at', addr
@@ -86,6 +87,6 @@ def main():
         pickle.dump(x, mf)
         
         conn.close()
-
+    s.close() # may not need this here?
 
 if __name__ == '__main__': main()
