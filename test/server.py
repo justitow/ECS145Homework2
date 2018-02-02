@@ -1,7 +1,8 @@
 class packet:
-  filename = ''
-  cmd = ''
-  data = ''
+    def __init__(self, name, command, data):
+        self.filename = name
+        self.cmd = command
+        self.data = data
 
 
 
@@ -18,7 +19,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Associate socket with a port
 host = ''
-port = 1337
+port = 1338
 s.bind((host, port))
 
 # accept "call" from client
@@ -29,7 +30,13 @@ print 'Client is at', addr
 
 mf = conn.makefile()
 x = pickle.load(mf)
+mf.close()
 
-print x.filename, x.cmd
+# Send Back Packet
+mf = conn.makefile()
+f = open(x.filename)
+x.data = f.read()
+
+pickle.dump(x, mf)
 
 conn.close()
