@@ -82,7 +82,7 @@ class dFile:
         'Close'
         x = 0
         
-    def dopen(self):
+    def dopen(self, filename):
         self.sendPacket('o', '')
 
 def main():
