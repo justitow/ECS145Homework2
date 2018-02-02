@@ -66,7 +66,7 @@ class dFile:
         print "packet recieved"
         
         #Close Connection
-        G.socket.shutdown()
+        #G.socket.shutdown()
         return x
 
     def dread(self, parameter = -1):
