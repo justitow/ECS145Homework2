@@ -55,20 +55,20 @@ class dFile:
         remote_socket.connect((G.hostList[serverindex], G.port))
 
         # Sends Packet with mf.close()
-        mf = remote_socket.socket.makefile()
+        mf = remote_socket.makefile()
         pickle.dump(p, mf)
         mf.close()
         print "packet sent"
 
         # Recieve the response packet
-        mf = remote_socket.socket.makefile()
+        mf = remote_socket.makefile()
         x = pickle.load(mf)
         mf.close()
         print "packet recieved"
         
         #Close Connection
-        remote_socket.socket.shutdown(socket.SHUT_WR)
-        remote_socket.socket.close()
+        remote_socket.shutdown(socket.SHUT_WR)
+        remote_socket.close()
         return x
 
     def dread(self, parameter = -1):
