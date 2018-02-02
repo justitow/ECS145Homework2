@@ -75,9 +75,7 @@ def main():
         x = pickle.load(mf)
         mf.close()
         
-        if x.cmd == 'k':
-            close_all(conn)
-            break
+        
         
         # Parse Command
         x = parse_command(x)
@@ -89,6 +87,10 @@ def main():
         mf.close()
         print "packet sent back"
         conn.close()
+        
+        if x.cmd == 'k':
+            close_all(conn)
+            break
     s.close() # may not need this here?
 
 if __name__ == '__main__': main()
