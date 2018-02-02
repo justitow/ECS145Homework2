@@ -38,28 +38,31 @@ class dFile:
     def __init__(self, fname):
         'Constructor'
         self.name = fname
+        # Create a Socket
+        self.socket =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        
     def sendPacket(self, command, data):
         'Sends Packets to Server'
         'Create a Packet'
         p = packet(self.name,command,data)
+        
         # Hash the Index
         serverindex = hash(self.name) % len(G.hostList)
-        # Create a Socket
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        
         # Connect to Server and Send Packet
-        s.connect((G.hostList[serverindex], G.port))
-
+        self.socket.connect((G.hostList[serverindex], G.port))
 
         # Sends Packet with mf.close()
         mf = s.makefile()
         pickle.dump(p, mf)
         mf.close()
 
-
+        # Recieve the response packet
         mf = s.makefile()
         x = pickle.load(mf)
+        
         #Close Connection
-        s.close()
+        self.socket.close()
         return x
 
     def dread(self):
