@@ -16,6 +16,7 @@ class packet:
 class G:
     hostList = ''
     port = 0
+    socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 
@@ -40,9 +41,7 @@ class dFile:
     def __init__(self, fname):
         'Constructor'
         self.name = fname
-        # Create a Socket
-        self.socket =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
+
     def sendPacket(self, command, data):
         'Sends Packets to Server'
         'Create a Packet'
@@ -52,22 +51,22 @@ class dFile:
         serverindex = hash(self.name) % len(G.hostList)
         
         # Connect to Server and Send Packet
-        self.socket.connect((G.hostList[serverindex], G.port))
+        G.socket.connect((G.hostList[serverindex], G.port))
 
         # Sends Packet with mf.close()
-        mf = self.socket.makefile()
+        mf = G.socket.makefile()
         pickle.dump(p, mf)
         mf.close()
         print "packet sent"
 
         # Recieve the response packet
-        mf = self.socket.makefile()
+        mf = G.socket.makefile()
         x = pickle.load(mf)
         mf.close()
         print "packet recieved"
         
         #Close Connection
-        self.socket.close()
+        G.socket.shutdown()
         return x
 
     def dread(self, parameter = -1):
