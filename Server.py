@@ -25,6 +25,8 @@ def parse_command(x):
         return file_open(x)
     elif (x.cmd == 'c'):
         return file_close(x)
+    else:
+        return x
     
 def file_open(x):
     open_files[x.filename] = open(x.filename)
