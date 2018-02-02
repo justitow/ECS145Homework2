@@ -93,6 +93,7 @@ def main():
         if x.cmd == 'k':
             close_all(conn)
             break
+    s.shutdown(socket.SHUT_RDWR)
     s.close() # may not need this here?
 
 if __name__ == '__main__': main()
