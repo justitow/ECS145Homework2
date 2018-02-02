@@ -65,13 +65,13 @@ class dFile:
         self.socket.close()
         return x
 
-    def dread(self):
-        recieved_packet = self.sendPacket('r',-1)
-        return recieved_packet.data
-        
-    def dread(self, parameter):
+    def dread(self, parameter = ''):
         recieved_packet = self.sendPacket('r', int(parameter))
         return recieved_packet.data
+        
+    #def dread(self, parameter):
+    #    recieved_packet = self.sendPacket('r', int(parameter))
+    #    return recieved_packet.data
         
     def dwrite(self):
         'Write'
@@ -84,6 +84,6 @@ def main():
 
     dInit(['pc10.cs.ucdavis.edu'], 1338)
     f = dopen('./test.txt')
-    f.dread()
+    print f.dread()
 
 if __name__ == '__main__': main()
