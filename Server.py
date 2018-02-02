@@ -86,7 +86,7 @@ def main():
         # Send Back Packet
         mf = conn.makefile()
         pickle.dump(x, mf)
-        
+        print "packet sent back"
         conn.close()
     s.close() # may not need this here?
 
