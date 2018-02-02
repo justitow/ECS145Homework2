@@ -67,9 +67,11 @@ class dFile:
 
     def dread(self):
         recieved_packet = self.sendPacket('r',-1)
+        return recieved_packet.data
         
     def dread(self, parameter):
         recieved_packet = self.sendPacket('r', int(parameter))
+        return recieved_packet.data
         
     def dwrite(self):
         'Write'
