@@ -39,7 +39,7 @@ def file_read(x):
     if x.data == -1:
         x.data = open_files[x.filename].read()
     else:
-        x.data = open_file[x.filename].read(int(x.data))
+        x.data = open_files[x.filename].read(int(x.data))
     return x
     
 def file_close(x):
