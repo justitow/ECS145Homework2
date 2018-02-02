@@ -77,19 +77,22 @@ class dFile:
         
         
     def dwrite(self, data):
-        x = self.sendpacket('w', data)
+        x = self.sendPacket('w', data)
+        return x
         
     def dclose(self):
-        x = self.sendpacket('c', '')
+        x = self.sendPacket('c', '')
+        return x
         
     def dopen(self, filename):
         x = self.sendPacket('o', '')
+        return x
 
 def main():
 
     dInit(['pc10.cs.ucdavis.edu'], 1338)
     f = dopen('./test.txt')
-    print f.dread(1)
+    print f.dread(2)
     print f.dread()
     f.dclose()
 
