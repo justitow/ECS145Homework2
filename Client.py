@@ -53,12 +53,12 @@ class dFile:
         self.socket.connect((G.hostList[serverindex], G.port))
 
         # Sends Packet with mf.close()
-        mf = s.makefile()
+        mf = self.socket.makefile()
         pickle.dump(p, mf)
         mf.close()
 
         # Recieve the response packet
-        mf = s.makefile()
+        mf = self.socket.makefile()
         x = pickle.load(mf)
         
         #Close Connection
