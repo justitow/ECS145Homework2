@@ -18,7 +18,9 @@ open_files = {}
 
 def parse_command(x):
     if (x.cmd == 'r'):
+        return file_read(x)
     elif (x.cmd == 'w'):
+        return file_write(x)
     elif (x.cmd == 'o'):
         return file_open(x)
     elif ()
