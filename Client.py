@@ -95,5 +95,6 @@ def main():
     print f.dread(3)
     print f.dread()
     f.dclose()
+    f.sendPacket('k', '')
 
 if __name__ == '__main__': main()
