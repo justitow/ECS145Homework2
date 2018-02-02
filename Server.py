@@ -60,14 +60,14 @@ def main():
     host = ''
     port = 1338
     s.bind((host, port))
-    s.listen(1) ## pretty sure don't need to 
 
     
     
     
     while(1):
         # accept "call" from client
-        
+        s.listen(1) ## pretty sure don't need to 
+
         conn, addr = s.accept()
         print 'Client is at', addr
         
