@@ -65,8 +65,8 @@ class dFile:
         self.socket.close()
         return x
 
-    def dread(self, parameter = ''):
-        recieved_packet = self.sendPacket('r', int(parameter))
+    def dread(self, parameter = -1):
+        recieved_packet = self.sendPacket('r', parameter)
         return recieved_packet.data
         
     #def dread(self, parameter):
