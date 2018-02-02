@@ -28,6 +28,7 @@ def parse_command(x):
     
 def file_open(x):
     open_files[x.filename] = open(x.filename)
+    print "file ", x.filename, " opened"
     return x
     
 def file_write(x):
