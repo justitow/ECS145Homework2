@@ -5,23 +5,80 @@
 import pickle, os, sys, socket
 
 class packet:
-  filename = ''
-  cmd = ''
-  data = ''
 
-p = packet()
-
-p.filename = 'test.txt'
-p.cmd = 'read'
+    def __init__(self, name, command, data):
+        self.filename = name
+        self.cmd = command
+        self.data = data
 
 
-# Create a Socket
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-host = 'pc10.cs.ucdavis.edu'
-port = 1337
+class G:
+    hostList = ''
+    port = 0
 
-s.connect((host, port))
-mf = s.makefile()
-pickle.dump(p, mf)
-s.close()
+
+
+
+# dInit()
+# Initialized the Client Code
+def dInit(hostList, portnum):
+    G.hostList = hostList
+    G.port = portnum
+
+
+# Returns FilePointer Object
+# Use:
+#   file_ptr = dopen(filename)
+#   file_ptr.read(), file_ptr.write(), etc
+def dopen(filename):
+    return dFile(filename)
+
+class dFile:
+    def __init__(self, fname):
+        'Constructor'
+        self.name = fname
+    def sendPacket(self, command, data):
+        'Sends Packets to Server'
+        'Create a Packet'
+        p = packet(self.name,command,data)
+        # Hash the Index
+        serverindex = hash(self.name) % len(G.hostList)
+        # Create a Socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Connect to Server and Send Packet
+        s.connect((G.hostList[serverindex], G.port))
+
+
+        # Sends Packet with mf.close()
+        mf = s.makefile()
+        pickle.dump(p, mf)
+        mf.close()
+
+
+        mf = s.makefile()
+        x = pickle.load(mf)
+        #Close Connection
+        s.close()
+        return x
+
+    def dread(self):
+        recieved_packet = self.sendPacket('r',-1)
+        
+    def dread(self, parameter):
+        recieved_packet = self.sendPacket('r', int(parameter))
+        
+    def dwrite(self):
+        'Write'
+        x = 0
+    def dclose(self):
+        'Close'
+        x = 0
+
+def main():
+
+    dInit(['pc10.cs.ucdavis.edu'], 1338)
+    f = dopen('./test.txt')
+    f.dread()
+
+if __name__ == '__main__': main()
