@@ -92,7 +92,7 @@ def main():
 
     dInit(['pc10.cs.ucdavis.edu'], 1338)
     f = dopen('./test.txt')
-    print f.dread(2)
+    print f.dread(3)
     print f.dread()
     f.dclose()
 
