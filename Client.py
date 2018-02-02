@@ -58,10 +58,13 @@ class dFile:
         mf = self.socket.makefile()
         pickle.dump(p, mf)
         mf.close()
+        print "packet sent"
 
         # Recieve the response packet
         mf = self.socket.makefile()
         x = pickle.load(mf)
+        mf.close()
+        print "packet recieved"
         
         #Close Connection
         self.socket.close()
