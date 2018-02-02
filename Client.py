@@ -75,16 +75,12 @@ class dFile:
         recieved_packet = self.sendPacket('r', parameter)
         return recieved_packet.data
         
-    #def dread(self, parameter):
-    #    recieved_packet = self.sendPacket('r', int(parameter))
-    #    return recieved_packet.data
         
-    def dwrite(self):
-        'Write'
-        x = 0
+    def dwrite(self, data):
+        x = self.sendpacket('w', data)
+        
     def dclose(self):
-        'Close'
-        x = 0
+        x = self.sendpacket('c', '')
         
     def dopen(self, filename):
         x = self.sendPacket('o', '')
@@ -93,6 +89,8 @@ def main():
 
     dInit(['pc10.cs.ucdavis.edu'], 1338)
     f = dopen('./test.txt')
+    print f.dread(1)
     print f.dread()
+    f.dclose()
 
 if __name__ == '__main__': main()
