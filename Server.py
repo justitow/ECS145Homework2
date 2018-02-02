@@ -91,10 +91,11 @@ def main():
         conn.close()
         
         if x.cmd == 'k':
+            s.listen(0)
+            s.shutdown(socket.SHUT_RDWR)
+            s.close() # may not need this here?
             close_all(conn)
-            break
-    s.listen(0)
-    s.shutdown(socket.SHUT_RDWR)
-    s.close() # may not need this here?
+            return 0
+    
 
 if __name__ == '__main__': main()
