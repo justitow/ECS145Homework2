@@ -32,7 +32,9 @@ def dInit(hostList, portnum):
 #   file_ptr = dopen(filename)
 #   file_ptr.read(), file_ptr.write(), etc
 def dopen(filename):
-    return dFile(filename)
+    remote_file = dFile(filename)
+    remote_file.dopen(filename)
+    return remote_file
 
 class dFile:
     def __init__(self, fname):
@@ -79,6 +81,9 @@ class dFile:
     def dclose(self):
         'Close'
         x = 0
+        
+    def dopen(self):
+        self.sendPacket('o', '')
 
 def main():
 
