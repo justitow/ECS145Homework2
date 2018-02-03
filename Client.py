@@ -12,12 +12,9 @@ class packet:
         self.data = data
 
 
-
 class G:
     hostList = ''
     port = 0
-
-
 
 
 # dInit()
@@ -31,9 +28,9 @@ def dInit(hostList, portnum):
 # Use:
 #   file_ptr = dopen(filename)
 #   file_ptr.read(), file_ptr.write(), etc
-def dopen(filename):
+def dopen(filename, mode='r'):
     remote_file = dFile(filename)
-    remote_file.dopen(filename)
+    remote_file.dopen(filename, mode)
     return remote_file
 
 class dFile:
@@ -43,14 +40,14 @@ class dFile:
 
     def sendPacket(self, command, data):
         remote_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
+
         'Sends Packets to Server'
         'Create a Packet'
         p = packet(self.name,command,data)
-        
+
         # Hash the Index
         serverindex = hash(self.name) % len(G.hostList)
-        
+
         # Connect to Server and Send Packet
         remote_socket.connect((G.hostList[serverindex], G.port))
 
@@ -65,8 +62,9 @@ class dFile:
         x = pickle.load(mf)
         mf.close()
         print "packet recieved"
-        
-        #Close Connection
+        if (x.cmd == 'f'):
+            print x.data
+        # Close Connection
         remote_socket.shutdown(socket.SHUT_WR)
         remote_socket.close()
         return x
@@ -74,27 +72,37 @@ class dFile:
     def dread(self, parameter = -1):
         recieved_packet = self.sendPacket('r', parameter)
         return recieved_packet.data
-        
-        
+
+
     def dwrite(self, data):
         x = self.sendPacket('w', data)
         return x
-        
+
     def dclose(self):
         x = self.sendPacket('c', '')
         return x
-        
-    def dopen(self, filename):
-        x = self.sendPacket('o', '')
+
+    def dopen(self, filename, mode='r'):
+        x = self.sendPacket('o', mode)
         return x
 
 def main():
 
-    dInit(['pc10.cs.ucdavis.edu'], 1338)
-    f = dopen('./test.txt')
-    print f.dread(3)
+    dInit(['pc8.cs.ucdavis.edu','pc10.cs.ucdavis.edu'], 1337)
+    f = dopen('./test.txt', 'w')
+    print f.dwrite('This is a text File')
     print f.dread()
     f.dclose()
-    f.sendPacket('k', '')
+
+
+    f = dopen('./test.txt', 'a')
+    f.dwrite('\nappended sentence\n')
+    f.dclose()
+
+
+    f = dopen('./test.txt', 'r+')
+    print f.dread()
+    f.dclose()
+
 
 if __name__ == '__main__': main()

@@ -27,75 +27,92 @@ def parse_command(x):
         return file_close(x)
     else:
         return x
-    
+
 def file_open(x):
-    open_files[x.filename] = open(x.filename)
+    try:
+        open_files[x.filename] = open(x.filename, x.data)
+    except IOError:
+        x.data = 'File ' + x.filename + ' does not exist'
+        x.cmd = 'f'
     print "file ", x.filename, " opened"
     return x
-    
+
 def file_write(x):
-    open_files[x.filename].write(x.data)
+    try:
+        open_files[x.filename].write(x.data)
+    except IOError:
+        x.data = "Not able to write to" + x.filename
+        x.cmd = 'f'
     return x
 
 def file_read(x):
-    if x.data == -1:
-        x.data = open_files[x.filename].read()
-    else:
-        x.data = open_files[x.filename].read(int(x.data))
+    try:
+        if x.data == -1:
+            x.data = open_files[x.filename].read()
+        else:
+            x.data = open_files[x.filename].read(int(x.data))
+    except IOError:
+        x.data = 'Unable to Read File' +  x.filename
+        x.cmd = 'f'
+
     return x
-    
+
 def file_close(x):
-    open_files[x.filename].close()
-    del open_files[x.filename]
+
+    try:
+        open_files[x.filename].close()
+        del open_files[x.filename]
+    except IOError:
+        x.data = 'Unable to Close File'
+        x.cmd = 'f'
     return x
-    
+
 def close_all(conn):
-    conn.close()
     for file in open_files:
         file.close()
-    
+
 
 def main():
     # Create a socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Associate socket with a port
     host = ''
-    port = 1338
+    port = int(sys.argv[1])
     s.bind((host, port))
 
-    
-    
-    
+
+
+
     while(1):
         # accept "call" from client
-        s.listen(1) ## pretty sure don't need to 
+        s.listen(1) ## pretty sure don't need to
 
         conn, addr = s.accept()
         print 'Client is at', addr
-        
+
         mf = conn.makefile()
         x = pickle.load(mf)
         mf.close()
-        
-        
-        
+
+
+
         # Parse Command
         x = parse_command(x)
-            
-        
+
+
         # Send Back Packet
         mf = conn.makefile()
         pickle.dump(x, mf)
         mf.close()
         print "packet sent back"
         conn.close()
-        
+
         if x.cmd == 'k':
             s.listen(0)
             s.shutdown(socket.SHUT_RDWR)
             s.close() # may not need this here?
             close_all(conn)
             return 0
-    
+
 
 if __name__ == '__main__': main()

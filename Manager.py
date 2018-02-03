@@ -1,4 +1,4 @@
-import os, socket, sys
+import os, socket, sys, pickle
 
 class packet:
     def __init__(self, name, command, data):
@@ -7,7 +7,7 @@ class packet:
         self.data = data
 
 
-path = './ECS145/HW2/'
+path = '/home/alexseth/ECS145Homework2-master/'
 
 class Manager:
 
@@ -20,21 +20,28 @@ class Manager:
         self.port = portNum
 
         for host in hostList:
-            os.system("ssh " + host + " 'nohup python " + path + ' server.py ' + str(portNum) + "  >&- &'")
+            os.system("ssh " + host + " 'nohup python " + path + 'Server.py ' + str(portNum) + "  >&- &'")
+
 
     def sysStop(self, hostList):
         # Create a Socket to Kill server
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         for host in hostList:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((host, self.port))
-            
-            
+
+
             mf = s.makefile()
             pickle.dump(packet('', 'k', ''), mf)
             mf.close()
+
+            # Recievs AWK packet for closing server
+            mf = s.makefile()
+            x = pickle.load(mf)
+            mf.close()
+
             s.close()
 
-
+''''
 def main():
     m = Manager()
     hostList = ['pc8.cs.ucdavis.edu','pc10.cs.ucdavis.edu']
@@ -43,3 +50,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
