@@ -7,7 +7,7 @@ class packet:
         self.data = data
 
 
-path = '/home/alexseth/ECS145Homework2-master/'
+path = './'
 
 class Manager:
 

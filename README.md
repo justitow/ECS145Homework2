@@ -4,6 +4,9 @@ The goal of this project was to create a distributed file system in python.
 It will be started up by a manager file with a given host list and port number.
 The computer for the file to be saved/retrieved from is chosen from the hash of the filename.
 
+## On Startup
+
+In order for the hosts to start up, the Homework2.py files will need to be in the home directory of whatever computer you are trying to SSH into.
 
 ## Manager
 
