@@ -6,8 +6,9 @@ The computer for the file to be saved/retrieved from is chosen from the hash of 
 
 ## On Startup
 
-In order for the hosts to start up, the Homework2.py files will need to be in the home directory of whatever computer you are trying to SSH into.
+In order for the hosts to start up, the HwkII.py files will need to be in the home directory of whatever computer you are trying to SSH into.
 
+The manager starts the nodes by using the sysStart function with the hostList and port number.
 ## Manager
 
 Using a list of strings in the form
