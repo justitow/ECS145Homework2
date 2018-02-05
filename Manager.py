@@ -20,7 +20,7 @@ class Manager:
         self.port = portNum
 
         for host in hostList:
-            os.system("ssh " + host + " 'nohup python " + path + 'Server.py ' + str(portNum) + "  >&- &'")
+            os.system("ssh " + host + " 'nohup python " + path + 'HwkII.py ' + str(portNum) + "  >&- &'")
 
 
     def sysStop(self, hostList):
